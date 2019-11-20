@@ -16,12 +16,6 @@ namespace ApiJdr.Controllers
     {
         private jdrEntities db = new jdrEntities();
 
-        // GET: api/t_utilisateur
-        public List<utilisateur> Get()
-        {
-            return db.utilisateur.ToList();
-        }
-
         public utilisateur GetById(int id)
         {
             return db.utilisateur.Find(id);
@@ -30,6 +24,11 @@ namespace ApiJdr.Controllers
         public utilisateur GetByPseudo(string pseudo)
         {
             return db.utilisateur.Where(x => x.PSEUDO == pseudo).FirstOrDefault();
+        }
+
+        public utilisateur GetByMail(string mail)
+        {
+            return db.utilisateur.Where(x => x.MAIL == mail).FirstOrDefault();
         }
 
         [HttpPost]
@@ -54,7 +53,7 @@ namespace ApiJdr.Controllers
         }
 
         [HttpPost]
-        public bool Ajouter(
+        public bool Inscription(
             string mail,
             string pseudo,
             string mdp,
@@ -83,23 +82,6 @@ namespace ApiJdr.Controllers
             }
         }
 
-
-        // DELETE: api/t_utilisateur/5
-        [ResponseType(typeof(utilisateur))]
-        public IHttpActionResult Supprimer(int id)
-        {
-            utilisateur t_utilisateur = db.utilisateur.Find(id);
-            if (t_utilisateur == null)
-            {
-                return NotFound();
-            }
-
-            db.utilisateur.Remove(t_utilisateur);
-            db.SaveChanges();
-
-            return Ok(t_utilisateur);
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -113,6 +95,10 @@ namespace ApiJdr.Controllers
         private bool PseudoExist(string pseudo)
         {
             return db.utilisateur.Where(x => x.PSEUDO.ToLower() == pseudo.ToLower()).Count() > 0;
+        }
+        private bool MailExist(string mail)
+        {
+            return db.utilisateur.Where(x => x.MAIL.ToLower() == mail.ToLower()).Count() > 0;
         }
     }
 }

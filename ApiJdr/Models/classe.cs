@@ -9,9 +9,10 @@
 
 namespace ApiJdr.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    
+
     public partial class classe
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,7 +20,7 @@ namespace ApiJdr.Models
         {
             this.personnage = new HashSet<personnage>();
         }
-    
+
         public int ID_CLASSE { get; set; }
         public short MAX_VIE { get; set; }
         public short MAX_MANA { get; set; }
@@ -32,7 +33,7 @@ namespace ApiJdr.Models
         public short CHARISME { get; set; }
         public string DESIGNATION { get; set; }
         public string DESCRIPTION { get; set; }
-    
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<personnage> personnage { get; set; }
     }

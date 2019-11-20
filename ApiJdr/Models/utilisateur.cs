@@ -24,6 +24,7 @@ namespace ApiJdr.Models
         public int ID_UTIL { get; set; }
         public string MAIL { get; set; }
         public string PSEUDO { get; set; }
+        [JsonIgnore]
         public string MDP { get; set; }
         public byte[] AVATAR { get; set; }
     

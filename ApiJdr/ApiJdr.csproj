@@ -193,6 +193,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JoueurController.cs" />
     <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\PartieController.cs" />
     <Compile Include="Controllers\PersonnageController.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="Models\image.cs">
       <DependentUpon>JDRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InfoPerso.cs" />
     <Compile Include="Models\JDRModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

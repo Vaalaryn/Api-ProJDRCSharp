@@ -27,7 +27,22 @@ namespace ApiJdr.Controllers
             return db.personnage.Find(idPerso);
         }
 
+        [HttpPost]
+        public bool Ajouter(
+            string nom,
+            string prenom,
+            string description,
+            string blocnote,
+            int? vie,
+            int? mana,
+            int? experience,
+            int? niveau
+            )
+        {
+            personnage perso = new personnage();
 
+            return true;
+        }
 
     }
 }
