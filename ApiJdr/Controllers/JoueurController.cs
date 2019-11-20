@@ -1,9 +1,6 @@
 ﻿using ApiJdr.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace ApiJdr.Controllers
@@ -17,7 +14,7 @@ namespace ApiJdr.Controllers
             List<InfoPerso> listInfo = new List<InfoPerso>();
 
             List<personnage> listPerso = db.joueur.Where(x => x.ID_PARTIE == idPartie && x.ID_JOUEUR == idJoueur).FirstOrDefault().personnage.ToList();
-            foreach(personnage perso in listPerso)
+            foreach (personnage perso in listPerso)
             {
                 listInfo.Add(new InfoPerso
                 {
@@ -28,6 +25,11 @@ namespace ApiJdr.Controllers
 
 
             return listInfo;
+        }
+
+        public List<partie> GetPartieByJoueur(int idUtil)
+        {
+            return db.joueur.Where(x => x.ID_UTIL == idUtil).ToList().Select(x => x.partie).ToList();
         }
     }
 }
