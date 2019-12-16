@@ -1,9 +1,6 @@
 ﻿using ApiJdr.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace ApiJdr.Controllers
@@ -42,6 +39,49 @@ namespace ApiJdr.Controllers
             personnage perso = new personnage();
 
             return true;
+        }
+
+        [HttpPost]
+        public string UpdatePersonnage(
+            int idPersonnage,
+            string nom,
+            string prenom,
+            string description,
+            string blocnote,
+            string vie,
+            string mana,
+            string experience,
+            string niveau,
+            string vivant)
+        {
+            personnage personnage = db.personnage.Find(idPersonnage);
+            try
+            {
+                if (nom != "")
+                    personnage.NOM = nom;
+                if (prenom != "")
+                    personnage.PRENOM = prenom;
+                if (description != "")
+                    personnage.DESCRIPTION = description;
+                if (blocnote != "")
+                    personnage.BLOCNOTE = blocnote;
+                if (vie != "")
+                    personnage.VIE = System.Convert.ToInt16(vie);
+                if (mana != "")
+                    personnage.MANA = System.Convert.ToInt16(mana);
+                if (experience != "")
+                    personnage.EXPERIENCE = System.Convert.ToInt16(experience);
+                if (niveau != "")
+                    personnage.NIVEAU = System.Convert.ToInt16(niveau);
+                if (vivant != "")
+                    personnage.VIVANT = (vivant == "true");
+                db.SaveChanges();
+                return "ok";
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
         }
 
     }

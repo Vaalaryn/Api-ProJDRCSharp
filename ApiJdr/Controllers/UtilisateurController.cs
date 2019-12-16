@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ApiJdr.Models;
+using System;
 using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Description;
-using ApiJdr.Models;
 
 namespace ApiJdr.Controllers
 {
@@ -60,7 +54,7 @@ namespace ApiJdr.Controllers
             string mdpConfirm,
             byte[] avatar)
         {
-            if(!PseudoExist(pseudo) && mdp == mdpConfirm)
+            if (!PseudoExist(pseudo) && mdp == mdpConfirm)
             {
                 utilisateur utilisateur = new utilisateur
                 {
@@ -68,7 +62,7 @@ namespace ApiJdr.Controllers
                     MAIL = mail,
                     MDP = mdp,
                     AVATAR = avatar
-                    
+
                 };
 
                 db.utilisateur.Add(utilisateur);
@@ -82,6 +76,20 @@ namespace ApiJdr.Controllers
             }
         }
 
+        [HttpPost]
+        public string UpdateUtilisateur()
+        {
+            utilisateur u = new utilisateur();
+            try
+            {
+                db.utilisateur.Add(u);
+                return "ok";
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
