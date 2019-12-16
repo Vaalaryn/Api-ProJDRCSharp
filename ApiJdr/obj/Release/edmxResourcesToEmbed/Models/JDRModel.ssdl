@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="jdrModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="8.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="classe">
+    <Key>
+      <PropertyRef Name="ID_CLASSE" />
+    </Key>
+    <Property Name="ID_CLASSE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MAX_VIE" Type="smallint" Nullable="false" />
+    <Property Name="MAX_MANA" Type="smallint" Nullable="false" />
+    <Property Name="PUISSANCE" Type="smallint" Nullable="false" />
+    <Property Name="MAGIE" Type="smallint" Nullable="false" />
+    <Property Name="DEXTERITE" Type="smallint" Nullable="false" />
+    <Property Name="OBSERVATION" Type="smallint" Nullable="false" />
+    <Property Name="INTELLIGENCE" Type="smallint" Nullable="false" />
+    <Property Name="CHANCE" Type="smallint" Nullable="false" />
+    <Property Name="CHARISME" Type="smallint" Nullable="false" />
+    <Property Name="DESIGNATION" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="DESCRIPTION" Type="text" />
+  </EntityType>
+  <EntityType Name="image">
+    <Key>
+      <PropertyRef Name="ID_IMAGE" />
+    </Key>
+    <Property Name="ID_IMAGE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_PARTIE" Type="varchar" MaxLength="16" Nullable="false" />
+    <Property Name="IMAGE" Type="longblob" Nullable="false" />
+    <Property Name="DATEAJOUT" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="joueur">
+    <Key>
+      <PropertyRef Name="ID_JOUEUR" />
+    </Key>
+    <Property Name="ID_JOUEUR" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_UTIL" Type="int" Nullable="false" />
+    <Property Name="ID_PARTIE" Type="varchar" MaxLength="16" Nullable="false" />
+    <Property Name="IS_MJ" Type="bool" Nullable="false" />
+  </EntityType>
+  <EntityType Name="log">
+    <Key>
+      <PropertyRef Name="ID_LOG" />
+    </Key>
+    <Property Name="ID_LOG" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_PARTIE" Type="varchar" MaxLength="16" Nullable="false" />
+    <Property Name="TYPE" Type="smallint" Nullable="false" />
+    <Property Name="MESSAGE" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="DATE_ENVOI" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="objet">
+    <Key>
+      <PropertyRef Name="ID_OBJET" />
+    </Key>
+    <Property Name="ID_OBJET" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NOM_OBJET" Type="varchar" MaxLength="50" />
+    <Property Name="DESC_OBJET" Type="text" />
+    <Property Name="ATTRIBUT" Type="text" />
+  </EntityType>
+  <EntityType Name="partie">
+    <Key>
+      <PropertyRef Name="ID_PARTIE" />
+    </Key>
+    <Property Name="ID_PARTIE" Type="varchar" MaxLength="16" Nullable="false" />
+    <Property Name="TITRE" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="DESCRIPTION_PARTIE" Type="text" />
+  </EntityType>
+  <EntityType Name="personnage">
+    <Key>
+      <PropertyRef Name="ID_PERSO" />
+    </Key>
+    <Property Name="ID_PERSO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_CLASSE" Type="int" Nullable="false" />
+    <Property Name="ID_JOUEUR" Type="int" Nullable="false" />
+    <Property Name="NOM" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="PRENOM" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="VIVANT" Type="bool" Nullable="false" />
+    <Property Name="DESCRIPTION" Type="text" />
+    <Property Name="BLOCNOTE" Type="varchar" MaxLength="255" />
+    <Property Name="VIE" Type="smallint" />
+    <Property Name="MANA" Type="smallint" />
+    <Property Name="EXPERIENCE" Type="int" />
+    <Property Name="NIVEAU" Type="int" />
+  </EntityType>
+  <EntityType Name="stock">
+    <Key>
+      <PropertyRef Name="ID_INVENTAIRE" />
+    </Key>
+    <Property Name="ID_INVENTAIRE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_PERSO" Type="int" Nullable="false" />
+    <Property Name="ID_OBJET" Type="int" Nullable="false" />
+    <Property Name="QUANTITE" Type="smallint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="utilisateur">
+    <Key>
+      <PropertyRef Name="ID_UTIL" />
+    </Key>
+    <Property Name="ID_UTIL" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MAIL" Type="varchar" MaxLength="140" Nullable="false" />
+    <Property Name="PSEUDO" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="MDP" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="AVATAR" Type="longblob" />
+  </EntityType>
+  <Association Name="FK_APPARTIENT">
+    <End Role="classe" Type="Self.classe" Multiplicity="1" />
+    <End Role="personnage" Type="Self.personnage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="classe">
+        <PropertyRef Name="ID_CLASSE" />
+      </Principal>
+      <Dependent Role="personnage">
+        <PropertyRef Name="ID_CLASSE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ASSOCIATION_5">
+    <End Role="utilisateur" Type="Self.utilisateur" Multiplicity="1" />
+    <End Role="joueur" Type="Self.joueur" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="utilisateur">
+        <PropertyRef Name="ID_UTIL" />
+      </Principal>
+      <Dependent Role="joueur">
+        <PropertyRef Name="ID_UTIL" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ASSOCIATION_6">
+    <End Role="partie" Type="Self.partie" Multiplicity="1" />
+    <End Role="log" Type="Self.log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="partie">
+        <PropertyRef Name="ID_PARTIE" />
+      </Principal>
+      <Dependent Role="log">
+        <PropertyRef Name="ID_PARTIE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ASSOCIATION_7">
+    <End Role="partie" Type="Self.partie" Multiplicity="1" />
+    <End Role="image" Type="Self.image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="partie">
+        <PropertyRef Name="ID_PARTIE" />
+      </Principal>
+      <Dependent Role="image">
+        <PropertyRef Name="ID_PARTIE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ASSOCIATION_8">
+    <End Role="personnage" Type="Self.personnage" Multiplicity="1" />
+    <End Role="stock" Type="Self.stock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="personnage">
+        <PropertyRef Name="ID_PERSO" />
+      </Principal>
+      <Dependent Role="stock">
+        <PropertyRef Name="ID_PERSO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ASSOCIATION_9">
+    <End Role="objet" Type="Self.objet" Multiplicity="1" />
+    <End Role="stock" Type="Self.stock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="objet">
+        <PropertyRef Name="ID_OBJET" />
+      </Principal>
+      <Dependent Role="stock">
+        <PropertyRef Name="ID_OBJET" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LIE">
+    <End Role="partie" Type="Self.partie" Multiplicity="1" />
+    <End Role="joueur" Type="Self.joueur" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="partie">
+        <PropertyRef Name="ID_PARTIE" />
+      </Principal>
+      <Dependent Role="joueur">
+        <PropertyRef Name="ID_PARTIE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_POSSEDE">
+    <End Role="joueur" Type="Self.joueur" Multiplicity="1" />
+    <End Role="personnage" Type="Self.personnage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="joueur">
+        <PropertyRef Name="ID_JOUEUR" />
+      </Principal>
+      <Dependent Role="personnage">
+        <PropertyRef Name="ID_JOUEUR" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="jdrModelStoreContainer">
+    <EntitySet Name="classe" EntityType="Self.classe" Schema="jdr" store:Type="Tables" />
+    <EntitySet Name="image" EntityType="Self.image" Schema="jdr" store:Type="Tables" />
+    <EntitySet Name="joueur" EntityType="Self.joueur" Schema="jdr" store:Type="Tables" />
+    <EntitySet Name="log" EntityType="Self.log" Schema="jdr" store:Type="Tables" />
+    <EntitySet Name="objet" EntityType="Self.objet" Schema="jdr" store:Type="Tables" />
+    <EntitySet Name="partie" EntityType="Self.partie" Schema="jdr" store:Type="Tables" />
+    <EntitySet Name="personnage" EntityType="Self.personnage" Schema="jdr" store:Type="Tables" />
+    <EntitySet Name="stock" EntityType="Self.stock" Schema="jdr" store:Type="Tables" />
+    <EntitySet Name="utilisateur" EntityType="Self.utilisateur" Schema="jdr" store:Type="Tables" />
+    <AssociationSet Name="FK_APPARTIENT" Association="Self.FK_APPARTIENT">
+      <End Role="classe" EntitySet="classe" />
+      <End Role="personnage" EntitySet="personnage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ASSOCIATION_5" Association="Self.FK_ASSOCIATION_5">
+      <End Role="utilisateur" EntitySet="utilisateur" />
+      <End Role="joueur" EntitySet="joueur" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ASSOCIATION_6" Association="Self.FK_ASSOCIATION_6">
+      <End Role="partie" EntitySet="partie" />
+      <End Role="log" EntitySet="log" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ASSOCIATION_7" Association="Self.FK_ASSOCIATION_7">
+      <End Role="partie" EntitySet="partie" />
+      <End Role="image" EntitySet="image" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ASSOCIATION_8" Association="Self.FK_ASSOCIATION_8">
+      <End Role="personnage" EntitySet="personnage" />
+      <End Role="stock" EntitySet="stock" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ASSOCIATION_9" Association="Self.FK_ASSOCIATION_9">
+      <End Role="objet" EntitySet="objet" />
+      <End Role="stock" EntitySet="stock" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LIE" Association="Self.FK_LIE">
+      <End Role="partie" EntitySet="partie" />
+      <End Role="joueur" EntitySet="joueur" />
+    </AssociationSet>
+    <AssociationSet Name="FK_POSSEDE" Association="Self.FK_POSSEDE">
+      <End Role="joueur" EntitySet="joueur" />
+      <End Role="personnage" EntitySet="personnage" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

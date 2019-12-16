@@ -227,6 +227,7 @@
     <Compile Include="Models\joueur.cs">
       <DependentUpon>JDRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\JsonPartieModel.cs" />
     <Compile Include="Models\log.cs">
       <DependentUpon>JDRModel.tt</DependentUpon>
     </Compile>

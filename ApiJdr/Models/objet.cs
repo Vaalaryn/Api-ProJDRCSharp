@@ -9,9 +9,10 @@
 
 namespace ApiJdr.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    
+
     public partial class objet
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,12 +20,12 @@ namespace ApiJdr.Models
         {
             this.stock = new HashSet<stock>();
         }
-    
+
         public int ID_OBJET { get; set; }
         public string NOM_OBJET { get; set; }
         public string DESC_OBJET { get; set; }
         public string ATTRIBUT { get; set; }
-    
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<stock> stock { get; set; }
     }

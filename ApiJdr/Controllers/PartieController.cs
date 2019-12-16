@@ -1,5 +1,7 @@
 ﻿using ApiJdr.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 
 namespace ApiJdr.Controllers
@@ -8,6 +10,7 @@ namespace ApiJdr.Controllers
     {
         private jdrEntities db = new jdrEntities();
 
+        [HttpPost]
         public bool Ajouter(string titre, string description)
         {
             try
@@ -29,5 +32,31 @@ namespace ApiJdr.Controllers
             }
         }
 
+        [HttpGet]
+        public List<partie> PartiesEnCours()
+        {
+            return db.partie.ToList();
+        }
+
+        [HttpPost]
+        public List<InfoPerso> GetAllPerso(string idPartie)
+        {
+            List<InfoPerso> infos = new List<InfoPerso>();
+
+            List<personnage> personnages = db.personnage.Where(x => x.joueur.ID_PARTIE == idPartie).ToList();
+            foreach (personnage perso in personnages)
+            {
+                InfoPerso info = new InfoPerso
+                {
+                    perso = perso,
+                    classePerso = perso.classe,
+                    objetPerso = db.stock.Where(x => x.ID_PERSO == perso.ID_PERSO).Select(x => x.objet).ToList()
+                };
+
+                infos.Add(info);
+            }
+
+            return infos;
+        }
     }
 }

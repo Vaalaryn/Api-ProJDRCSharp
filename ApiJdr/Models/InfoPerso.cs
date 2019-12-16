@@ -9,5 +9,6 @@ namespace ApiJdr.Models
     {
         public personnage perso { get; set; }
         public classe classePerso { get; set; }
+        public List<objet> objetPerso { get; set; }
     }
 }
