@@ -38,6 +38,26 @@ namespace ApiJdr.Controllers
             }
         }
 
+        [HttpPost]
+        public string UpdatePartie(string idPartie, string titre, string description)
+        {
+            partie p = db.partie.Find(idPartie);
+            try
+            {
+                if (titre != "")
+                    p.TITRE = titre;
+                if (description != "")
+                    p.DESCRIPTION_PARTIE = description;
+
+                db.SaveChanges();
+                return "ok";
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+        }
+
         [HttpGet]
         public List<partie> PartiesEnCours()
         {
