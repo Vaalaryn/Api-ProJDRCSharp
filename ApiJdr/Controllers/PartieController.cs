@@ -1,6 +1,7 @@
 ﻿using ApiJdr.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web.Http;
 
@@ -11,7 +12,7 @@ namespace ApiJdr.Controllers
         private jdrEntities db = new jdrEntities();
 
         [HttpPost]
-        public bool Ajouter(string titre, string description)
+        public string Ajouter(string titre, string description)
         {
             try
             {
@@ -22,13 +23,18 @@ namespace ApiJdr.Controllers
                     DESCRIPTION_PARTIE = description,
                     TITRE = titre
                 };
+                string curFile = Properties.Settings.Default.ServeurFW.ToString() + key + ".json";
+                if (File.Exists(curFile) == false)
+                {
+                    File.Create(curFile);
+                }
                 db.partie.Add(newPartie);
                 db.SaveChanges();
-                return true;
+                return "ok";
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return false;
+                return e.Message;
             }
         }
 
