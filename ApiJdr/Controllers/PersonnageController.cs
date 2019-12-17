@@ -1,4 +1,5 @@
-﻿using ApiJdr.Models;
+﻿using ApiJdr.Helper;
+using ApiJdr.Models;
 using System;
 using System.Linq;
 using System.Web.Http;
@@ -25,34 +26,72 @@ namespace ApiJdr.Controllers
         }
 
         [HttpPost]
-        public bool Ajouter(
+        public string Ajouter(
+            int idJoueur,
+            int idClasse,
             string nom,
             string prenom,
             string description,
             string blocnote,
-            int? vie,
-            int? mana,
-            int? experience,
-            int? niveau
+            short vie = -1,
+            short mana = -1,
+            short experience = -1,
+            short niveau = -1
             )
         {
-            personnage perso = new personnage();
+            try
+            {
+            personnage perso = new personnage
+            {
+                NOM = nom,
+                PRENOM = prenom,
+                VIVANT = true,
+                DESCRIPTION = description,
+                BLOCNOTE = blocnote,
+                ID_JOUEUR = idJoueur,
+                joueur = db.joueur.Find(idJoueur),
+                ID_CLASSE = idClasse,
+                classe = db.classe.Find(idClasse),               
+            };
 
-            return true;
+            //Paramètres optionnels
+            if (vie != -1)
+                perso.VIE = vie;
+            if (mana != -1)
+                perso.MANA = mana;
+            if (experience != -1)
+                perso.EXPERIENCE = experience;
+            if (niveau != -1)
+                perso.NIVEAU = niveau;
+
+            //Ajout du perso
+            db.personnage.Add(perso);
+            db.SaveChanges();
+
+            JsonToFile.UpdatePartie(perso.joueur.ID_PARTIE);
+
+            return "ok";
+
+            }
+            catch(Exception e)
+            {
+                return e.Message;
+            }
         }
 
         [HttpPost]
         public string UpdatePersonnage(
             int idPersonnage,
-            string nom,
-            string prenom,
-            string description,
-            string blocnote,
-            string vie,
-            string mana,
-            string experience,
-            string niveau,
-            string vivant)
+            string vivant = "",
+            string nom = "",
+            string prenom = "",
+            string description = "",
+            string blocnote = "",
+            short vie = -1,
+            short mana = -1,
+            short experience = -1,
+            short niveau = -1
+            )
         {
             personnage personnage = db.personnage.Find(idPersonnage);
             try
@@ -65,17 +104,19 @@ namespace ApiJdr.Controllers
                     personnage.DESCRIPTION = description;
                 if (blocnote != "")
                     personnage.BLOCNOTE = blocnote;
-                if (vie != "")
-                    personnage.VIE = System.Convert.ToInt16(vie);
-                if (mana != "")
-                    personnage.MANA = System.Convert.ToInt16(mana);
-                if (experience != "")
-                    personnage.EXPERIENCE = System.Convert.ToInt16(experience);
-                if (niveau != "")
-                    personnage.NIVEAU = System.Convert.ToInt16(niveau);
+                if (vie != -1)
+                    personnage.VIE = vie;
+                if (mana != -1)
+                    personnage.MANA = mana;
+                if (experience != -1)
+                    personnage.EXPERIENCE = experience;
+                if (niveau != -1)
+                    personnage.NIVEAU = niveau;
                 if (vivant != "")
-                    personnage.VIVANT = (vivant == "true");
+                    personnage.VIVANT = vivant == "true" ? true : false;
+
                 db.SaveChanges();
+                JsonToFile.UpdatePartie(personnage.joueur.ID_PARTIE);
                 return "ok";
             }
             catch (Exception e)

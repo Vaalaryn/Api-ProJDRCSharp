@@ -42,7 +42,7 @@ namespace ApiJdr.Controllers
                     {
                         FileStream fs = File.Create(curFileParties);
                         fs.Close();
-                        
+
                     }
                     //Création du fichier log
                     string curFileLog = Properties.Settings.Default.ServeurFW.ToString() + "/Logs/" + key + ".json";
@@ -57,7 +57,7 @@ namespace ApiJdr.Controllers
                 {
                     //Erreur de réseau
                 }
-                
+
                 db.partie.Add(newPartie);
                 db.SaveChanges();
 
@@ -79,11 +79,13 @@ namespace ApiJdr.Controllers
         [HttpPost]
         public string UpdatePartie(string idPartie,
             string titre = "",
-            string description = "")
+            string description = ""
+        )
         {
             partie p = db.partie.Find(idPartie);
             try
             {
+                //Update partie
                 if (titre != "")
                     p.TITRE = titre;
                 if (description != "")
@@ -109,8 +111,8 @@ namespace ApiJdr.Controllers
             }).ToList();
         }
 
-       
-        
+
+
 
         [HttpPost]
         public List<InfoPerso> GetAllPerso(string idPartie)
@@ -133,10 +135,10 @@ namespace ApiJdr.Controllers
             return infos;
         }
 
-        
 
 
 
-        
+
+
     }
 }

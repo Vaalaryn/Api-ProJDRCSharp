@@ -13,6 +13,7 @@ namespace ApiJdr.Models
 
         public virtual List<image> image { get; set; }
         public virtual List<joueur> joueur { get; set; }
+        public virtual List<personnage> personnage { get; set; }
         //public virtual List<log> log { get; set; }
     }
 }

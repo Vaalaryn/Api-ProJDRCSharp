@@ -29,6 +29,25 @@ namespace ApiJdr.Helper
             }
         }
         /// <summary>
+        /// Met à jour le json de la partie.
+        /// </summary>
+        /// <param name="idPartie"></param>
+        /// <returns></returns>
+        public static string UpdatePartie(string idPartie)
+        {
+            try
+            {
+                EcrireJsonPartie(idPartie);
+                return "ok";
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+        }
+
+
+        /// <summary>
         /// Récupère les infos de la partie
         /// </summary>
         /// <param name="idPartie"></param>
@@ -42,7 +61,8 @@ namespace ApiJdr.Helper
                 TITRE = p.TITRE,
                 DESCRIPTION_PARTIE = p.DESCRIPTION_PARTIE,
                 joueur = p.joueur.ToList(),
-                image = p.image.ToList()
+                image = p.image.ToList(),
+                personnage = db.
             };
         }
         /// <summary>
