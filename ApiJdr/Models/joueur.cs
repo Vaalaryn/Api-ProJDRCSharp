@@ -9,6 +9,7 @@
 
 namespace ApiJdr.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -26,6 +27,7 @@ namespace ApiJdr.Models
         public bool IS_MJ { get; set; }
     
         public virtual utilisateur utilisateur { get; set; }
+        [JsonIgnore]
         public virtual partie partie { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<personnage> personnage { get; set; }

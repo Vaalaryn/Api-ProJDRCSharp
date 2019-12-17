@@ -9,6 +9,7 @@
 
 namespace ApiJdr.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -19,7 +20,9 @@ namespace ApiJdr.Models
         public int ID_OBJET { get; set; }
         public short QUANTITE { get; set; }
     
+
         public virtual objet objet { get; set; }
+        [JsonIgnore]
         public virtual personnage personnage { get; set; }
     }
 }

@@ -1,4 +1,7 @@
-﻿using ApiJdr.Models;
+﻿using ApiJdr.Helper;
+using ApiJdr.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,19 +36,32 @@ namespace ApiJdr.Controllers
                 };
                 try
                 {
-                    string curFile = Properties.Settings.Default.ServeurFW.ToString() + key + ".json";
-                    if (File.Exists(curFile) == false)
+                    //Création du fichier partie
+                    string curFileParties = Properties.Settings.Default.ServeurFW.ToString() + "/Parties/" + key + ".json";
+                    if (!File.Exists(curFileParties))
                     {
-                        File.Create(curFile);
+                        FileStream fs = File.Create(curFileParties);
+                        fs.Close();
+
+                    }
+                    //Création du fichier log
+                    string curFileLog = Properties.Settings.Default.ServeurFW.ToString() + "/Logs/" + key + ".json";
+                    if (!File.Exists(curFileLog))
+                    {
+                        FileStream fs = File.Create(curFileLog);
+                        fs.Close();
+
                     }
                 }
                 catch
                 {
-
+                    //Erreur de réseau
                 }
-                
+
                 db.partie.Add(newPartie);
                 db.SaveChanges();
+
+                JsonToFile.EcrireJsonPartie(key);
                 return "ok";
             }
             catch (Exception e)
@@ -53,13 +69,23 @@ namespace ApiJdr.Controllers
                 return e.Message;
             }
         }
-
+        /// <summary>
+        /// Mettre à jour les informations de la partie.
+        /// </summary>
+        /// <param name="idPartie">Id de la partie.</param>
+        /// <param name="titre">Titre de la partie.</param>
+        /// <param name="description">Description de la partie.</param>
+        /// <returns>Message de retour.</returns>
         [HttpPost]
-        public string UpdatePartie(string idPartie, string titre, string description)
+        public string UpdatePartie(string idPartie,
+            string titre = "",
+            string description = ""
+        )
         {
             partie p = db.partie.Find(idPartie);
             try
             {
+                //Update partie
                 if (titre != "")
                     p.TITRE = titre;
                 if (description != "")
@@ -85,6 +111,9 @@ namespace ApiJdr.Controllers
             }).ToList();
         }
 
+
+
+
         [HttpPost]
         public List<InfoPerso> GetAllPerso(string idPartie)
         {
@@ -105,5 +134,11 @@ namespace ApiJdr.Controllers
 
             return infos;
         }
+
+
+
+
+
+
     }
 }
