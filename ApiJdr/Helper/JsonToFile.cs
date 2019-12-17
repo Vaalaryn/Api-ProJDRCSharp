@@ -61,8 +61,8 @@ namespace ApiJdr.Helper
                 TITRE = p.TITRE,
                 DESCRIPTION_PARTIE = p.DESCRIPTION_PARTIE,
                 joueur = p.joueur.ToList(),
-                image = p.image.ToList(),
-                personnage = db.
+                image = p.image.ToList()
+                
             };
         }
         /// <summary>
