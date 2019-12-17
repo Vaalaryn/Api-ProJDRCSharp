@@ -9,6 +9,7 @@
 
 namespace ApiJdr.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -19,7 +20,7 @@ namespace ApiJdr.Models
         public short TYPE { get; set; }
         public string MESSAGE { get; set; }
         public System.DateTime DATE_ENVOI { get; set; }
-    
+        [JsonIgnore]
         public virtual partie partie { get; set; }
     }
 }
