@@ -12,22 +12,38 @@ namespace ApiJdr.Controllers
         private jdrEntities db = new jdrEntities();
 
         [HttpPost]
-        public string Ajouter(string titre, string description)
+        public string Ajouter(int idUtilisateur, string titre, string description)
         {
             try
             {
                 string key = Helper.Fonctions.KeyGen();
+                joueur j = new joueur
+                {
+                    ID_PARTIE = key,
+                    ID_UTIL = idUtilisateur,
+                    IS_MJ = true
+                };
+
                 partie newPartie = new partie
                 {
                     ID_PARTIE = key,
                     DESCRIPTION_PARTIE = description,
-                    TITRE = titre
+                    TITRE = titre,
+                    joueur = new List<joueur> { j }
                 };
-                string curFile = Properties.Settings.Default.ServeurFW.ToString() + key + ".json";
-                if (File.Exists(curFile) == false)
+                try
                 {
-                    File.Create(curFile);
+                    string curFile = Properties.Settings.Default.ServeurFW.ToString() + key + ".json";
+                    if (File.Exists(curFile) == false)
+                    {
+                        File.Create(curFile);
+                    }
                 }
+                catch
+                {
+
+                }
+                
                 db.partie.Add(newPartie);
                 db.SaveChanges();
                 return "ok";
@@ -59,9 +75,14 @@ namespace ApiJdr.Controllers
         }
 
         [HttpGet]
-        public List<partie> PartiesEnCours()
+        public List<JsonPartieModel> PartiesEnCours(int idUtilisateur)
         {
-            return db.partie.ToList();
+            return db.partie.Where(x => x.joueur.Select(j => j.ID_UTIL).ToList().Contains(idUtilisateur)).Select(x => new JsonPartieModel
+            {
+                ID_PARTIE = x.ID_PARTIE,
+                TITRE = x.TITRE,
+                DESCRIPTION_PARTIE = x.DESCRIPTION_PARTIE
+            }).ToList();
         }
 
         [HttpPost]
