@@ -25,7 +25,7 @@ namespace ApiJdr.Controllers
             return db.utilisateur.Where(x => x.MAIL == mail).FirstOrDefault();
         }
 
-        [HttpPost]
+        [HttpGet]
         public bool Connexion(string pseudo, string pass)
         {
             if (db.utilisateur.Where(x => x.PSEUDO.ToLower() == pseudo.ToLower()).Count() > 0)
