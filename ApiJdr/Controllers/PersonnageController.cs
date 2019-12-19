@@ -60,7 +60,8 @@ namespace ApiJdr.Controllers
             db.personnage.Add(perso);
             db.SaveChanges();
 
-            JsonToFile.UpdatePartie(perso.joueur.ID_PARTIE);
+                if (JsonToFile.UpdatePartie(perso.joueur.ID_PARTIE) != "ok")
+                    return "Erreur";
 
             return "ok";
 
