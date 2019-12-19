@@ -68,8 +68,5 @@ namespace ApiJdr.Controllers
         {
             return db.personnage.Find(idPerso).stock.ToList();
         }
-
-
-
     }
 }

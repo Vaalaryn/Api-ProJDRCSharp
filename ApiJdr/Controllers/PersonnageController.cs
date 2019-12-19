@@ -25,6 +25,7 @@ namespace ApiJdr.Controllers
             return db.personnage.Find(idPerso);
         }
 
+
         [HttpPost]
         public string Ajouter(
             int idJoueur,
@@ -32,11 +33,8 @@ namespace ApiJdr.Controllers
             string nom,
             string prenom,
             string description,
-            string blocnote,
-            short vie = -1,
-            short mana = -1,
-            short experience = -1,
-            short niveau = -1
+            short mana,
+            short vie
             )
         {
             try
@@ -47,28 +45,23 @@ namespace ApiJdr.Controllers
                 PRENOM = prenom,
                 VIVANT = true,
                 DESCRIPTION = description,
-                BLOCNOTE = blocnote,
+                BLOCNOTE = "",
                 ID_JOUEUR = idJoueur,
                 joueur = db.joueur.Find(idJoueur),
                 ID_CLASSE = idClasse,
-                classe = db.classe.Find(idClasse),               
+                classe = db.classe.Find(idClasse),   
+                EXPERIENCE = 0,
+                MANA = mana,
+                NIVEAU = 1
+
+                
             };
-
-            //Paramètres optionnels
-            if (vie != -1)
-                perso.VIE = vie;
-            if (mana != -1)
-                perso.MANA = mana;
-            if (experience != -1)
-                perso.EXPERIENCE = experience;
-            if (niveau != -1)
-                perso.NIVEAU = niveau;
-
             //Ajout du perso
             db.personnage.Add(perso);
             db.SaveChanges();
 
-            JsonToFile.UpdatePartie(perso.joueur.ID_PARTIE);
+                if (JsonToFile.UpdatePartie(perso.joueur.ID_PARTIE) != "ok")
+                    return "Erreur";
 
             return "ok";
 
