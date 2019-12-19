@@ -62,8 +62,8 @@ namespace ApiJdr.Controllers
 
                 if (JsonToFile.UpdatePartie(perso.joueur.ID_PARTIE) != "ok")
                     return "Erreur";
-
-            return "ok";
+                else
+                    return "ok";
 
             }
             catch(Exception e)

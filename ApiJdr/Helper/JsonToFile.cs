@@ -55,12 +55,22 @@ namespace ApiJdr.Helper
         public static JsonPartieModel InfoPartie(string idPartie)
         {
             partie p = db.partie.Find(idPartie);
+
+            List<JoueurModel> listeJoueur = p.joueur.Select(x => new JoueurModel
+            {
+                ID_JOUEUR = x.ID_JOUEUR,
+                ID_PARTIE = x.ID_PARTIE,
+                IS_MJ = x.IS_MJ,
+                personnage = x.personnage.ToList(),
+                stock = x.personnage.SelectMany(s => s.stock).ToList()
+            }).ToList();
+
             return new JsonPartieModel
             {
                 ID_PARTIE = p.ID_PARTIE,
                 TITRE = p.TITRE,
                 DESCRIPTION_PARTIE = p.DESCRIPTION_PARTIE,
-                joueur = p.joueur.ToList(),
+                joueur = listeJoueur,
                 image = p.image.ToList()
                 
             };

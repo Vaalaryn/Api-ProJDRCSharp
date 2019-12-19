@@ -57,7 +57,7 @@ namespace ApiJdr.Controllers
                 db.joueur.Add(j);
                 db.SaveChanges();
 
-                JsonToFile.UpdatePartie(idPartie);
+                //JsonToFile.UpdatePartie(idPartie);
 
                 return j.ID_JOUEUR;
             }
