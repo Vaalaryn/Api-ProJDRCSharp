@@ -107,7 +107,10 @@ namespace ApiJdr.Controllers
             {
                 ID_PARTIE = x.ID_PARTIE,
                 TITRE = x.TITRE,
-                DESCRIPTION_PARTIE = x.DESCRIPTION_PARTIE
+                DESCRIPTION_PARTIE = x.DESCRIPTION_PARTIE,
+                IS_MJ = x.joueur.Where(j => j.ID_UTIL == idUtilisateur && j.ID_PARTIE == x.ID_PARTIE ).FirstOrDefault().IS_MJ,
+                ID_JOUEUR = x.joueur.Where(j => j.ID_UTIL == idUtilisateur && j.ID_PARTIE == x.ID_PARTIE).FirstOrDefault().ID_JOUEUR
+
             }).ToList();
         }
 
