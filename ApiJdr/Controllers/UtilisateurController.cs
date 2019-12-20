@@ -91,18 +91,52 @@ namespace ApiJdr.Controllers
         }
 
         [HttpPost]
-        public string UpdateUtilisateur()
+        public string UpdateUtilisateur(
+            int id,
+            string mdp,
+            string newMail = "",
+            string newMdp = "",
+            string newMdpConfirm = "",
+            string newPseudo = "")
         {
-            utilisateur u = new utilisateur();
             try
             {
-                db.utilisateur.Add(u);
+                utilisateur util;
+
+
+                util = db.utilisateur.Find(id);
+
+                if (mdp == util.MDP)
+                {
+                    if (newMail != "")
+                        util.MAIL = newMail;
+                    if (newPseudo != "")
+                        util.PSEUDO = newPseudo;
+                    if (newMdp != "" && newMdpConfirm != "" && newMdp == newMdpConfirm)
+                        util.MDP = newMdp;
+                }
+                db.SaveChanges();
                 return "ok";
             }
             catch (Exception e)
             {
                 return e.Message;
             }
+        }
+
+
+        public string UpdateAvatar()
+        {
+            HttpContext ctx = HttpContext.Current;
+            var form = ctx.Request.Form;
+
+            HttpPostedFile file = ctx.Request.Files[0];
+            byte[] avatar = null;
+            using (var binaryReader = new BinaryReader(file.InputStream))
+            {
+                avatar = binaryReader.ReadBytes(file.ContentLength);
+            }
+            return "";
         }
         protected override void Dispose(bool disposing)
         {
