@@ -33,6 +33,11 @@ namespace ApiJdr.Controllers
             return db.joueur.Where(x => x.ID_UTIL == idUtil).ToList().Select(x => x.partie).ToList();
         }
 
+        public joueur GetUtilByJoueur(int idJoueur)
+        {
+            return db.joueur.Find(idJoueur);
+        }
+
         public int Ajouter(
                 string idPartie,
                 int idUtil
@@ -52,7 +57,7 @@ namespace ApiJdr.Controllers
                 db.joueur.Add(j);
                 db.SaveChanges();
 
-                JsonToFile.UpdatePartie(idPartie);
+                //JsonToFile.UpdatePartie(idPartie);
 
                 return j.ID_JOUEUR;
             }

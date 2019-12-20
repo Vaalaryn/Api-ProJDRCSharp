@@ -136,9 +136,45 @@ namespace ApiJdr.Controllers
         }
 
 
+        [HttpGet]
+        public JsonPartieModel GetById(string idPartie)
+        {
+            partie p = db.partie.Find(idPartie);
+            List<JoueurModel> listeJoueur = p.joueur.Select(x => new JoueurModel
+            {
+                ID_JOUEUR = x.ID_JOUEUR,
+                ID_PARTIE = x.ID_PARTIE,
+                IS_MJ = x.IS_MJ,
+                personnage = x.personnage.ToList(),
+                stock = x.personnage.SelectMany(s => s.stock).ToList()
+            }).ToList();
+            return new JsonPartieModel
+            {
+                DESCRIPTION_PARTIE = p.DESCRIPTION_PARTIE,
+                ID_PARTIE = p.ID_PARTIE,
+                image = p.image.ToList(),
+                joueur = listeJoueur,
+                TITRE = p.TITRE
+            };
+        }
 
-
-
+        [HttpGet]
+        public int EstDansLaPartie(int idUtil,string idPartie)
+        {
+            try
+            {
+            partie p = db.partie.Find(idPartie);
+            if (p.joueur.Select(x => x.ID_UTIL).Contains(idUtil))
+                return 1; //Est dans la partie
+            else
+                return 0; //N'est pas dans la partie
+            }
+            catch
+            {
+                //Erreur
+                return -1;
+            }
+        }
 
     }
 }
