@@ -62,8 +62,8 @@ namespace ApiJdr.Controllers
 
                 if (JsonToFile.UpdatePartie(perso.joueur.ID_PARTIE) != "ok")
                     return "Erreur";
-
-            return "ok";
+                else
+                    return "ok";
 
             }
             catch(Exception e)
@@ -80,10 +80,10 @@ namespace ApiJdr.Controllers
             string prenom = "",
             string description = "",
             string blocnote = "",
-            short vie = -1,
-            short mana = -1,
-            short experience = -1,
-            short niveau = -1
+            short vie = 0,
+            short mana = 0,
+            short experience = 0,
+            short niveau = 0
             )
         {
             personnage personnage = db.personnage.Find(idPersonnage);
@@ -97,16 +97,18 @@ namespace ApiJdr.Controllers
                     personnage.DESCRIPTION = description;
                 if (blocnote != "")
                     personnage.BLOCNOTE = blocnote;
-                if (vie != -1)
-                    personnage.VIE = vie;
-                if (mana != -1)
-                    personnage.MANA = mana;
-                if (experience != -1)
-                    personnage.EXPERIENCE = experience;
-                if (niveau != -1)
-                    personnage.NIVEAU = niveau;
-                if (vivant != "")
-                    personnage.VIVANT = vivant == "true" ? true : false;
+                if (vie != 0)
+                    personnage.VIE += vie;
+                if (mana != 0)
+                    personnage.MANA += mana;
+                if (experience != 0)
+                    personnage.EXPERIENCE += experience;
+                if (niveau != 0)
+                    personnage.NIVEAU += niveau;
+                if (vie <= 0)
+                    personnage.VIVANT = false;
+                else
+                    personnage.VIVANT = true;
 
                 db.SaveChanges();
                 JsonToFile.UpdatePartie(personnage.joueur.ID_PARTIE);

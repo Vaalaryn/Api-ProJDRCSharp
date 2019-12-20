@@ -79,10 +79,10 @@ en modifiant ce fichier MSBuild. Pour en savoir plus à ce sujet, visitez https:
       <publishTime>12/17/2019 09:45:15</publishTime>
     </File>
     <File Include="bin/ApiJdr.dll">
-      <publishTime>12/19/2019 09:36:00</publishTime>
+      <publishTime>12/20/2019 10:15:16</publishTime>
     </File>
     <File Include="bin/ApiJdr.pdb">
-      <publishTime>12/19/2019 09:36:00</publishTime>
+      <publishTime>12/20/2019 10:15:16</publishTime>
     </File>
     <File Include="bin/BouncyCastle.Crypto.dll">
       <publishTime>12/17/2019 09:45:15</publishTime>

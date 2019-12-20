@@ -140,12 +140,20 @@ namespace ApiJdr.Controllers
         public JsonPartieModel GetById(string idPartie)
         {
             partie p = db.partie.Find(idPartie);
+            List<JoueurModel> listeJoueur = p.joueur.Select(x => new JoueurModel
+            {
+                ID_JOUEUR = x.ID_JOUEUR,
+                ID_PARTIE = x.ID_PARTIE,
+                IS_MJ = x.IS_MJ,
+                personnage = x.personnage.ToList(),
+                stock = x.personnage.SelectMany(s => s.stock).ToList()
+            }).ToList();
             return new JsonPartieModel
             {
                 DESCRIPTION_PARTIE = p.DESCRIPTION_PARTIE,
                 ID_PARTIE = p.ID_PARTIE,
                 image = p.image.ToList(),
-                joueur = p.joueur.ToList(),
+                joueur = listeJoueur,
                 TITRE = p.TITRE
             };
         }
